@@ -9,9 +9,19 @@ In order to edit config file, which is /root/.mediatomb/config.xml inside docker
 docker exec -it mediatomb bash
 vi /root/.mediatomb/config.xml
 ```
+
 If you prefer human like editor, do apt install nano.
 Save changes, restart container.
 
+I've also made changes to get over the "missing Rewind/Time Search feature" with mkv files on Samsung TV.
+
+```xml
+    <protocolInfo extend="yes"/>
+    <custom-http-headers>
+      <add header="transferMode.dlna.org: Streaming"/>
+      <add header="contentFeatures.dlna.org: DLNA.ORG_OP=01;DLNA.ORG_CI=0; DLNA.ORG_FLAGS=01700000000000000000000000000000"/>
+    </custom-http-headers>
+```
 
 ## How to Build
 
@@ -25,6 +35,9 @@ docker build . -t mediatomb/mediatomb
 docker run -d --name=mediatomb --net=host -v /localmediadir:/media mediatomb/mediatomb
 ```
 
+<!---
+docker run -d --name=mediatomb --net=host -v /docker/transmission/downloads/complete:/media mediatomb/mediatomb
+--->
 You may add more volumes same way, add them later to DB via web.
 
 ## How to manage
